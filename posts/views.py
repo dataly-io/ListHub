@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.views import generic
 
-from .models import Post
+from .models import Post, STATUS
 
 
 class PostListView(generic.ListView):
@@ -12,3 +12,12 @@ class PostListView(generic.ListView):
 class PostDetailView(generic.DetailView):
     model = Post
     template_name = "post_detail.html"
+
+
+class PostCreateView(CreateView):
+    model = Post
+    fields = ['title', 'content', 'due_date', 'status']
+
+    def form_valid(self, form):
+        form.instance.owner = self.rquest.user
+        return super().form_valid(form)
