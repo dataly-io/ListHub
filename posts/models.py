@@ -1,12 +1,17 @@
 from django.db import models
-from django.contrib.auth.models import User
+from django.contrib.auth.models import AbstractUser
 from django.utils import timezone
+from django.conf import settings
 
 
 STATUS = (
     (0, 'Draft'), 
     (1, 'Publish')
 )
+
+
+class User(AbstractUser):
+    pass
 
 
 class Category(models.Model):
@@ -19,9 +24,9 @@ class Category(models.Model):
 
 
 class Post(models.Model):
+    author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='blog_posts')
     title = models.CharField(max_length=50)
     slug = models.SlugField(max_length=200, unique=True)
-    author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='blog_posts')
     content = models.TextField()
     created = models.DateTimeField(auto_now_add=timezone.now().strftime('%Y-%m-%d'))
     updated = models.DateField(auto_now=timezone.now().strftime('%Y-%m-%d'))

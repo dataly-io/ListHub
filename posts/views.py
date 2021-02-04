@@ -1,7 +1,11 @@
 from django.shortcuts import render
 from django.views import generic
 
-from .models import Post, STATUS
+from .models import Post
+
+
+def index(request): 
+    return render(request, 'index.html')
 
 
 class PostListView(generic.ListView):
@@ -14,7 +18,7 @@ class PostDetailView(generic.DetailView):
     template_name = "post_detail.html"
 
 
-class PostCreateView(CreateView):
+class PostCreateView(generic.CreateView):
     model = Post
     fields = ['title', 'content', 'due_date', 'status']
 
