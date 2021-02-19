@@ -11,6 +11,13 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 
 from pathlib import Path, os
+import environ
+
+
+env = environ.Env()
+# reading .env file
+environ.Env.read_env()
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -20,7 +27,7 @@ TEMPLATES_DIRS = os.path.join(BASE_DIR, 'templates')
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'm@-u6l#mq%%hx6)ic^2ako@o#^$e1a6*@z+*h7o$_(pxi_j+-('
+SECRET_KEY = env("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -95,7 +102,7 @@ AUTH_USER_MODEL = 'posts.User'
 SOCIAL_AUTH_TRAILING_SLASH = False  # Remove trailing slash from routes
 SOCIAL_AUTH_AUTH0_DOMAIN = 'brianruizy.us.auth0.com'
 SOCIAL_AUTH_AUTH0_KEY = 'J5Ey2VtgNoiYRIEnOHcQxNCYl3QTdYV4'
-SOCIAL_AUTH_AUTH0_SECRET = 'HjtIpQFdTeouU0J4pNotgL8AjtrRBjVRo5ydZXjcbVK-zg0a3McIjlvDiiuNlz_9'
+SOCIAL_AUTH_AUTH0_SECRET = env("SOCIAL_AUTH_AUTH0_SECRET")
 SOCIAL_AUTH_AUTH0_SCOPE = [
     'openid',
     'profile',
